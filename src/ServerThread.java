@@ -1,6 +1,3 @@
-/**
- * Created by amir on 15/12/2017.
- */
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

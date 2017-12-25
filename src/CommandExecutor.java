@@ -1,6 +1,3 @@
-/**
- * Created by amir on 15/12/2017.
- */
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -30,21 +27,6 @@ public class CommandExecutor {
             } else if(parseCommand(commandString) == "send") {
                 System.out.println("we are sending");
             }
-//            Process child = Runtime.getRuntime().exec(parseCommand(commandString));
-//
-//            // open a BufferedReader to read the output of the child process
-//            BufferedReader output = new BufferedReader(new InputStreamReader(child.getInputStream()));
-//            // while the child process is still outputting, add the output to the result string
-//            while ((line = output.readLine()) != null) {
-//                result = result.concat(line);
-//                result = result.concat("\n");
-//            }
-//
-//            result = result.concat("\n");
-//            // add "END_MESSAGE" to the result string. When the client sees END_MESSAGE it
-//            // will know that the server is done sending
-//            result = result.concat("END_MESSAGE");
-//            output.close();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,8 +38,8 @@ public class CommandExecutor {
     /**
      * Converts the digit string into its respective shell command.
      *
-     * @param inputString		A string containing a single digit, 1-6;
-     * @return			A string containing the shell command to run
+     * @param inputString
+     * @return
      */
     static String parseCommand(String inputString) {
         int inputInt = Integer.parseInt(inputString);

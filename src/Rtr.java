@@ -1,6 +1,3 @@
-/**
- * Created by amir on 15/12/2017.
- */
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +72,6 @@ public class Rtr {
             String asn;
             String prefix;
             String maxLength;
-            String validity = "";
             while (rs.next()){
                 roa_id = rs.getInt(1);
                 asn = rs.getString(2);
@@ -84,8 +80,6 @@ public class Rtr {
                 validated_roas.add(new Roa(roa_id, asn, prefix, maxLength));
             }
         } catch (Exception e) {
-            System.out.println("in here");
-
             System.out.println(e.getMessage());
         }
     }
@@ -105,7 +99,5 @@ public class Rtr {
 
         Server srvr = new Server();
         srvr.server(rpki);
-
-        //rpki.printRoas();
     }
 }

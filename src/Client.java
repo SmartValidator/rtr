@@ -1,6 +1,3 @@
-/**
- * Created by amir on 15/12/2017.
- */
 import java.util.*;
 import java.io.*;
 import java.util.concurrent.atomic.AtomicLong;
@@ -44,13 +41,6 @@ public class Client {
                 System.exit(0);
             }
 
-            // if 7, ask which command should be run in the benchmark mode
-            // and how many connections to create
-            if (menuSelection == 7) {
-                printOutput = false;
-                menuSelection = benchmarkMenu();
-                numProcesses = numProcessesMenu();
-            }
             // create threads. since numProcesses is initialized to 1 and gets reset
             // at the end of this loop, if the user has not selected to benchmark
             // a command, this loop  will only create one process
@@ -100,40 +90,6 @@ public class Client {
             System.out.println("The menu provides the following choices to the user: ");
             System.out.println("1. Print all ROAs \n2. Send ROAs\n8. Quit ");
             System.out.print("Please provide number corresponding to the action you want to be performed: ");
-            Scanner sc = new Scanner(System.in);
-            if (sc.hasNextInt()) menuSelection = sc.nextInt();
-        }
-        return menuSelection;
-    }
-
-    /**
-     * Function to prompt the user for a benchmark command to run
-     * @return command number 1-6
-     */
-    public static int benchmarkMenu() {
-        int menuSelection = 0;
-        // loop (and prompt again) until the user's input is an integer between 1 and 6
-        while ((menuSelection <= 0) || (menuSelection > 6)) {
-            System.out.println("Which command would you like to benchmark? ");
-            System.out.println("1. Host current Date and Time \n2. Host uptime\n"
-                    + "3. Host memory use \n4. Host Netstat \n5. Host current users "
-                    + "\n6. Host running processes");
-            System.out.print("Please provide number corresponding to the action you want to be performed: ");
-            Scanner sc = new Scanner(System.in);
-            if (sc.hasNextInt()) menuSelection = sc.nextInt();
-        }
-        return menuSelection;
-    }
-
-    /**
-     * Function to prompt the user for how many connections to make (for measuring the mean response time)
-     * @return number 1-100
-     */
-    public static int numProcessesMenu() {
-        int menuSelection = 0;
-        // loop (and prompt again) until the user's input is an integer between 1 and 100
-        while ((menuSelection <= 0) || (menuSelection > 100)) {
-            System.out.print("How many connections to the server would you like to open? [1-100]: ");
             Scanner sc = new Scanner(System.in);
             if (sc.hasNextInt()) menuSelection = sc.nextInt();
         }
