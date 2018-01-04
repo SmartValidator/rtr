@@ -53,8 +53,11 @@ public class Client {
                 thrd = new Thread(new ClientThread(args[0], menuSelection, totalTime, printOutput, runningThreads));
                 thrd.start(); // start the thread
                 list.add(thrd); // add the thread to the end of the linked list
-
             }
+
+            // Starting the RTR protocol
+
+            // End the RTR protocol
 
             // wait for all of the threads to complete before going to the top
             // of the loop again. This ensures that all threads complete before the

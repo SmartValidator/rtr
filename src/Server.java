@@ -28,6 +28,9 @@ public class Server {
                 numThreads.incrementAndGet();
                 System.out.println("Thread " + numThreads.get() + " started.");
 
+                // a new router connected - start new session
+                String seesion_id = "Some random unique session id";
+                RtrSession rtr_session = new RtrSession(seesion_id);
             }
         }
         catch (IOException ioe){

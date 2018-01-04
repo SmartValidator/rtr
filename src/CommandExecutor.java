@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
 /*
  * Class containing methods for taking the command string (a string with a digit 1-6)
@@ -26,6 +27,14 @@ public class CommandExecutor {
                 db.printRoas();
             } else if(parseCommand(commandString) == "send") {
                 System.out.println("we are sending");
+
+                // TODO: Implement here the sending protocol to the router
+                //***
+                //***
+                List<Rtr.Roa> roas_list = db.sendRoas();
+                for (Rtr.Roa roa : roas_list) {
+                    roa.printRoa();
+                }
             }
 
         } catch (Exception e) {

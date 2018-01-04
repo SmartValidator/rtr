@@ -90,6 +90,12 @@ public class Rtr {
         }
     }
 
+    public List<Roa> sendRoas() {
+        // send the ROAs to the router
+        System.out.println("I am sending");
+        return validated_roas;
+    }
+
     public static void main(String[] args) {
 
         System.out.println("Hello, World!");
