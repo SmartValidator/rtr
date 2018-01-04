@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by amir on 03/01/2018.
@@ -7,44 +9,55 @@ public class RtrSession {
     public String session_id;
 
     // The pdu to send to the router
-    public String pdu;
+    public Pdu pdu;
+
+    // The data records this session has
+    List<Pdu> pdu_list = new ArrayList<Pdu>();
+
+    // List of valid ROAs
+    public List<Rtr.Roa> roa_list = new ArrayList<>();
 
     public Router router;
 
-    public RtrSession(String session_id) {
+    public RtrSession(String session_id, Pdu pdu) {
+        this.pdu = pdu;
         this.session_id = session_id;
     }
 
-    public void notifyClients() {
-
+    public void serialNotify() {
+        pdu.serialNotify(this.session_id);
     }
 
-    public void cacheResponsePDU() {
-
+    public void serialQuery() {
+        pdu.serialQuery(this.session_id);
     }
 
-    public void cacheResetPDU() {
-
+    public void resetQuery() {
+        pdu.resetQuery();
     }
 
-    public void ip4_prefix() {
-
+    public void cacheResponsePDU(int sn) {
+        pdu.cacheResponsePDU();
     }
 
-    public void ip6_prefix() {
-
+    public void ip4Prefix() {
+        pdu.ip4Prefix();
     }
 
-    public void end_of_data() {
-
+    public void ip6Prefix() {
+        pdu.ip6Prefix();
     }
 
-    public void cache_reset() {
-
+    public void endOfData() {
+        pdu.endOfData(this.session_id);
     }
 
-    public void error_report() {
+    public void cacheReset() {
+        pdu.cacheReset();
+    }
 
+    public void errorReport() {
+        // TODO
     }
 
 
