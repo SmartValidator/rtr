@@ -2,11 +2,19 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Server {
 
-    public static void server(Rtr db) {
+    // The Serial Number of the RPKI Cache
+    public int serial_number;
+    // Session ID to identify the instance of the cache
+    public String session_id = "0";
+    // List of ROAs from db
+    private List<Rtr.Roa> roas = new ArrayList<>();
+
+    public void server(Rtr db) {
         AtomicInteger numThreads = new AtomicInteger(0);
         // the list of threads is kept in a linked list
         ArrayList<Thread> list = new ArrayList<Thread>();
@@ -28,13 +36,34 @@ public class Server {
                 numThreads.incrementAndGet();
                 System.out.println("Thread " + numThreads.get() + " started.");
 
+                // ------------------------------------------------------------------------
                 // a new router connected - start new session
-                String seesion_id = "Some random unique session id";
-                RtrSession rtr_session = new RtrSession(seesion_id);
+                RtrSession rtrSession = new RtrSession(getCurrCacheSerial(), getCurrPrefixes(), getCurrSessionId());
+
+                Pdu pdu = new Pdu(pdu_type,
+                        serial_number,
+                        seesion_id,
+                        length,
+                        flags,
+                        prefix_length, max_length, prefix, asn);
+                RtrSession rtr_session = new RtrSession(seesion_id, pdu);
+                // ------------------------------------------------------------------------
             }
         }
         catch (IOException ioe){
             ioe.printStackTrace();
         }
+    }
+
+    public int getCurrCacheSerial() {
+        return this.serial_number;
+    }
+
+    public List<Rtr.Roa> getCurrPrefixes() {
+        return this.roas;
+    }
+
+    public String getCurrSessionId() {
+        return this.session_id;
     }
 }

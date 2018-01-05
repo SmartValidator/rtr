@@ -8,24 +8,46 @@ public class Rtr {
     private List<Roa> validated_roas = new ArrayList<>();
     //private Server srvr;
 
-    public class Roa{
+    public static class Roa{
         private int roa_id;
         private String asn;
         private String prefix;
         private String maxLength;
+        private String length;
         private String validity = "";
+
+        public Roa() {
+
+        }
+
+        public String getMaxLength() {
+            return maxLength;
+        }
+
+        public String getAsn() {
+            return asn;
+        }
+
+        public String getLength() {
+            return length;
+        }
+
+        public String getPrefix() {
+            return prefix;
+        }
 
         public Roa(int roa_id, String asn, String prefix, String maxLength){
             this.roa_id = roa_id;
             this.asn = asn;
             this.prefix = prefix;
             this.maxLength = maxLength;
+            this.length = "";
         }
 
         public void printRoa() {
             System.out.println("-------- ROA " + this.roa_id + " ------------");
             System.out.println("ASN: "+ this.asn);
-            System.out.println("Prefix: "+ this.prefix);
+            System.out.println("prefixType: "+ this.prefix);
             System.out.println("MaxLength: "+ this.maxLength);
             System.out.println("Validatiy: "+ this.validity);
         }
