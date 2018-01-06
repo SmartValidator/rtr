@@ -1,5 +1,6 @@
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -270,10 +271,11 @@ public class Pdu {
         // The buffer to write on
         ByteArrayOutputStream pdu_byte_obj = new ByteArrayOutputStream(this.getLength());
 
-        byte[] protocol_bytes = Integer.toString(this.getProtocol_version()).getBytes();
-        byte[] type_bytes = Integer.toString(this.getPdu_type()).getBytes();
-        byte[] header_bytes = Integer.toString(this.getHeader_bytes()).getBytes();
-        byte[] length_bytes = Integer.toString(this.getLength()).getBytes();
+        byte[] protocol_bytes = BigInteger.valueOf(this.getProtocol_version()).toByteArray();
+        byte[] type_bytes = BigInteger.valueOf(this.getPdu_type()).toByteArray();
+        //byte[] type_bytes = Integer.toString(this.getPdu_type()).getBytes();
+        byte[] header_bytes = BigInteger.valueOf(this.getHeader_bytes()).toByteArray();
+        byte[] length_bytes = BigInteger.valueOf(this.getLength()).toByteArray();
         try {
             pdu_byte_obj.write(protocol_bytes);
             pdu_byte_obj.write(type_bytes);
@@ -315,9 +317,9 @@ public class Pdu {
 
 
     public ByteArrayOutputStream writeIPPayload(ByteArrayOutputStream buffer, Rtr.Roa roa) {
-        byte[] prefix_min_length_bytes = Integer.toString(this.getPrefix_length()).getBytes();
-        byte[] prefix_max_length_bytes = Integer.toString(this.getMax_length()).getBytes();
-        byte[] flags_bytes = Integer.toString(this.getFlags()).getBytes();
+        byte[] prefix_min_length_bytes = BigInteger.valueOf(this.getPrefix_length()).toByteArray();
+        byte[] prefix_max_length_bytes = BigInteger.valueOf(this.getMax_length()).toByteArray();
+        byte[] flags_bytes = BigInteger.valueOf(this.getFlags()).toByteArray();
         try {
             buffer.write(flags_bytes);
             buffer.write(prefix_min_length_bytes);
