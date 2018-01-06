@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 
 /*
@@ -14,10 +11,12 @@ public class ServerThread extends Thread {
     Rtr db;
     PrintWriter output;
     BufferedReader input;
+    int session_id;
 
-    public ServerThread(Socket client, Rtr db) {
+    public ServerThread(Socket client, Rtr db, int session_id) {
         this.db = db;
         this.client = client;
+        this.session_id = session_id;
     }
 
     public void run() {
@@ -27,6 +26,9 @@ public class ServerThread extends Thread {
             // open a new PrintWriter and BufferedReader on the socket
             output = new PrintWriter(client.getOutputStream(), true);
             input = new BufferedReader(new InputStreamReader(client.getInputStream()));
+
+            int serial_num = 0; //TODO: ge serial from the router
+
             System.out.print("Reader and writer created. ");
 
             String inString;
@@ -35,10 +37,27 @@ public class ServerThread extends Thread {
             System.out.println("Read command " + inString);
 
             // run the command using CommandExecutor and get its output
-            String outString = CommandExecutor.run(inString, this.db);
-            System.out.println("Server sending result to client");
-            // send the result of the command to the client
-            output.println(outString);
+            Pdu pdu = new Pdu(serial_num, db.getValidated_roas());
+            int range = 1;
+
+            if (Integer.parseInt(inString) == 6) {
+                range = db.getValidated_roas().size();
+                for(int i = 0; i < range; i++) {
+                    pdu.ip4Prefix();
+
+                    ByteArrayOutputStream outString = pdu.encode(pdu.getRoaInPos(i));
+                    System.out.println("Server sending result to client");
+                    // send the result of the command to the client
+                    output.println(outString);
+                }
+
+            } else {
+                ByteArrayOutputStream outString = CommandExecutor.run(inString, this.db, pdu, this.session_id);
+                System.out.println("Server sending result to client");
+                // send the result of the command to the client
+                output.println(outString);
+            }
+
         }
         catch (IOException e) {
             e.printStackTrace();

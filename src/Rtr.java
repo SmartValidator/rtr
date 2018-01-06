@@ -5,6 +5,7 @@ import java.util.List;
 public class Rtr {
 
     private Connection connection;
+
     private List<Roa> validated_roas = new ArrayList<>();
     //private Server srvr;
 
@@ -106,15 +107,23 @@ public class Rtr {
         }
     }
 
-    public void printRoas() {
+    public String printRoas() {
+        String roas = "";
         for (Roa roa : validated_roas) {
             roa.printRoa();
+            roas += roa.getAsn() + " " + roa.getPrefix();
         }
+
+        return roas;
     }
 
     public List<Roa> sendRoas() {
         // send the ROAs to the router
         System.out.println("I am sending");
+        return validated_roas;
+    }
+
+    public List<Roa> getValidated_roas() {
         return validated_roas;
     }
 
@@ -125,7 +134,11 @@ public class Rtr {
         Rtr rpki = new Rtr();
         rpki.getRoas();
 
-        Server srvr = new Server();
+        int cache_serial_num = 0; // TODO: should be generated
+        int session_id = 0; // TODO: should be generated randomly
+        List<Roa> valid_roas = rpki.getValidated_roas();
+
+        Server srvr = new Server(cache_serial_num, valid_roas, session_id);
         srvr.server(rpki);
     }
 }

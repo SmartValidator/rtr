@@ -31,12 +31,12 @@ public class Client {
 
         // until the user selects 8, the Exit option, keep looping and
         // offering the menu again after running the queries to the server
-        else while (menuSelection != 8) {
+        else while (menuSelection != 80) {
             // display the menu and get the user's choice
             menuSelection = mainMenu();
 
             // if 8, exit program
-            if (menuSelection == 8) {
+            if (menuSelection == 80) {
                 System.out.println("Quitting.");
                 System.exit(0);
             }
@@ -91,7 +91,17 @@ public class Client {
         // loop (and prompt again) until the user's input is an integer between 1 and 8
         while ((menuSelection <= 0) || (menuSelection > 8)) {
             System.out.println("The menu provides the following choices to the user: ");
-            System.out.println("1. Print all ROAs \n2. Send ROAs\n8. Quit ");
+            System.out.println("1. Print all ROAs");
+            System.out.println("2. SERIAL_NOTIFY");
+            System.out.println("3. SERIAL_QUERY");
+            System.out.println("4. RESET_QUERY");
+            System.out.println("5. CACHE_RESPONSE");
+            System.out.println("6. IPV4_PREFIX");
+            System.out.println("7. IPV6_PREFIX");
+            System.out.println("8. EOD");
+            System.out.println("9. CACHE_RESET");
+            System.out.println("10. Quit");
+
             System.out.print("Please provide number corresponding to the action you want to be performed: ");
             Scanner sc = new Scanner(System.in);
             if (sc.hasNextInt()) menuSelection = sc.nextInt();

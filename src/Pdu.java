@@ -8,6 +8,9 @@ import java.util.List;
  */
 public class Pdu {
 
+    public Pdu(int serial_number) {
+    }
+
     public enum prefixType {
         IPV4(0),
         IPV6(1);
@@ -92,14 +95,21 @@ public class Pdu {
     // ASN allowed to announce this prefix, a 32-bit unsigned integer.
     public int asn;
 
+    public List<List<String>> prefixes_asn;
+    public List<Rtr.Roa> roas;
 
-    public Pdu(int serial_number) {
+
+    public Pdu(int serial_number, List<Rtr.Roa> roas) {
         this.setSerial_number(serial_number);
+        this.roas = roas;
     }
 
     //
     // Getters
     //
+    public Rtr.Roa getRoaInPos(int idx) {
+        return this.roas.get(idx);
+    }
     public int getProtocol_version() {
         return protocol_version;
     }
@@ -256,7 +266,7 @@ public class Pdu {
         return this;
     }
 
-    public void encode(pdu_type_enum type, Rtr.Roa roa) {
+    public ByteArrayOutputStream encode(Rtr.Roa roa) {
         // The buffer to write on
         ByteArrayOutputStream pdu_byte_obj = new ByteArrayOutputStream(this.getLength());
 
@@ -273,32 +283,34 @@ public class Pdu {
             e.printStackTrace();
         }
 
-        switch (type) {
-            case SERIAL_NOTIFY:
+        switch (this.getPdu_type()) {
+            case 0: // SERIAL_NOTIFY
                 pdu_byte_obj.write(this.getSerial_number());
                 break;
-            case SERIAL_QUERY:
+            case 1: // SERIAL_QUERY
                 pdu_byte_obj.write(this.getSerial_number());
                 break;
-            case RESET_QUERY:
+            case 2: // RESET_QUERY
                 // no payload
                 break;
-            case CACHE_RESPONSE:
+            case 3: // CACHE_RESPONSE
                 // no payload
                 break;
-            case IPV4_PREFIX:
+            case 4: // IPV4_PREFIX
                 pdu_byte_obj = writeIPPayload(pdu_byte_obj, roa);
                 break;
-            case IPV6_PREFIX:
+            case 6: //IPV6_PREFIX
                 pdu_byte_obj = writeIPPayload(pdu_byte_obj, roa);
                 break;
-            case EOD:
+            case 7: // EOD
                 pdu_byte_obj.write(this.getSerial_number());
                 break;
-            case CACHE_RESET:
+            case 8: // CACHE_RESET
                 // no payload
                 break;
         }
+
+        return pdu_byte_obj;
     }
 
 

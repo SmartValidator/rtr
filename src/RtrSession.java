@@ -22,7 +22,7 @@ public class RtrSession {
         this.session_id = session_id;
     }
 
-    public RtrSession(int serian_num, List<Rtr.Roa> roas, String session_id) {
+    public RtrSession(int serian_num, List<Rtr.Roa> roas, int session_id) {
         this.pdu = new Pdu(
                 /* serial_number */ this.serial_number
         );
@@ -31,7 +31,7 @@ public class RtrSession {
     public Pdu serialNotify() {
         Pdu pdu = new Pdu(this.getSerial_number());
         pdu.serialNotify(this.getSession_id());
-        pdu.encode(Pdu.pdu_type_enum.SERIAL_NOTIFY, null);
+        pdu.encode(null);
 
         return pdu;
     }
@@ -59,7 +59,6 @@ public class RtrSession {
     public void setSerial_number(int serial_number) {
         this.serial_number = serial_number;
     }
-
 
 
     public void serialQuery() {
